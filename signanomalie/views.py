@@ -6,6 +6,7 @@ def home():
     return render_template(
         "home.html",
         title = "SignAnomalie",
+        locations = glpi.get_locations()
     )
 
 app.config['SECRET_KEY'] = "f2ef2834-7d1c-47a4-b35c-f48547b6c6dc"
