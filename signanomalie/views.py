@@ -5,7 +5,7 @@ from .app import app, glpi
 @app.route("/")
 def home():
     form=SignalForm()
-    choicesbat = form.batiment.choices = ["Informatique","Chimie","QLIO","GTE","GEA","GMP","Autres"]
+    choicesbat = form.batiment.choices = ["grrrr"]
     choicesSalleInfo = form.salle.choices = ["I01","I02","I03","I04","I05","I06","I07"]
     choicesMateriel = form.materiel.choices = ["Clavier","Souris","Ecran","Unité centrale","Vidéo Projecteur"]
     choicesProbleme = form.probleme.choices = ["Pertes des droits","Connexion à ma session impossible"]
