@@ -57,3 +57,14 @@ class GLPI_CLIENT(GLPI):
     def get_locations(self):
         locations = self.get_all_items("Location")
         return {location["name"] : location["id"] for location in locations}
+    
+    def get_computers_per_location(self, location):
+        criteria = [{'field': 3, 'searchtype' : 'contains', 'value' : location}]
+        forcedisplay = [1, 2]
+        return self.search('Computer', criteria = criteria, forcedisplay = forcedisplay)
+
+    def get_sub_locations(self, location_id):
+        return self.get_sub_items("Location", location_id, "Location")
+
+    def get_batiments(self):
+        return {location : id_ for location, id_ in self.locations.items() if "Bâtiment" in location} 
