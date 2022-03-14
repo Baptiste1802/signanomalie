@@ -1,5 +1,3 @@
-from random import choices
-from tkinter.tix import Select
 from ..app import app
 from flask_wtf import FlaskForm
 from wtforms.fields.simple import HiddenField, SubmitField

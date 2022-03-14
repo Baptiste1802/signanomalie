@@ -1,4 +1,3 @@
-from signal import signal
 from flask import render_template
 from .models.forms import SignalForm
 from .app import app, glpi
