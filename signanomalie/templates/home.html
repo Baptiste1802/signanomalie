@@ -1,9 +1,105 @@
 {% extends "base.html" %}
 {% block main %}
-<h1>{{ title }}</h1>
-{% for location in locations %}
-<ul>
-    <li>{{ location }} </li>
-</ul>
-{% endfor %}
+<h1 class="text-center">{{ title }}</h1>
+
+<body>
+
+    <div name="container1" class="container">
+        <form action="" method="POST" class="needs-validation" novalidate>
+            {{ form.hidden_tag() }}
+
+            <div class="mail">
+                <div class="form-floating">
+                    {{ form.mail(class_="form-control") }}
+                    {{ form.mail.label(class_="form-label") }}
+                </div>
+            </div>
+
+            <div class="active">
+                <div class="form-check form-switch">
+                    {{ form.mailDeSuivi(class_="form-check-input") }}
+                    {{ form.mailDeSuivi.label(class_="form-check-label") }}
+                </div>
+            </div>
+
+            <div class="bat">
+                <label for="batiment" class="form-label"><strong>Bâtiment</strong></label>
+                <select class="form-select" id="batiment" required>
+                    <option value="" disabled selected hidden>Choisissez un département</option>
+                    {% for choice in choicesbat %}
+                    <option>{{ choice }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="SalleMateriel">
+                <div class="row">
+                    <div class="col">
+                        <label for="salle" class="form-label"><strong>Salle</strong></label>
+                        <select class="form-select" id="salle" required>
+                            <option value="" disabled selected hidden>Choisissez une salle</option>
+                            {% for choice in choicesSalleInfo %}
+                            <option>{{ choice }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col">
+                        <label for="materiel" class="form-label"><strong>Matériel</strong></label>
+                        <select class="form-select" id="materiel" required>
+                            <option value="" disabled selected hidden>Quel est le matériel défectueux ?</option>
+                            {% for choice in choicesMateriel %}
+                            <option>{{ choice }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="pb">
+                <label for="probleme" class="form-label"><strong>Problème</strong></label>
+                <select class="form-select" id="probleme" required>
+                    <option value="" disabled selected hidden>Quel est le problème ?</option>
+                    {% for choice in choicesProbleme %}
+                    <option>{{ choice }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+
+            <div class="prio">
+                <label for="priorite" class="form-label"><strong>Priorité</strong></label>
+                <select class="form-select" id="priorite" required>
+                    <option value="" disabled selected hidden>Définissez une priorité à votre problème</option>
+                    {% for choice in choicesPriorite %}
+                    <option>{{ choice }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="description">
+                <label for="desc" class="form-label"><strong>Description</strong></label>
+                <div class="form-floating">
+                    {{ form.desc(class_="form-control") }}
+                    {{ form.desc.label(class_="form-label") }}
+                </div>
+            </div>
+
+
+            <div class="centre">
+                <label for="formFile" class="ajoutphoto"><strong>Ajoutez une photo</strong></label>
+                <input class="form-control" type="file" id="formFile">
+            </div>
+
+            <div class="boutons">
+                <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Valider et envoyer le ticket">Envoyer</button>
+            
+                <button type="reset" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Remettre tous les champs à vide">Reset</button>
+            </div>
+        
+        </form>
+    </div>
+
+</body>
 {% endblock %}
