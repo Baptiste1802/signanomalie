@@ -18,11 +18,6 @@ def mkpath(p):
 print(os.environ.get("URL"), os.environ.get("APP_TOKEN"), os.environ.get("API_TOKEN") )
 
 try:
-    glpi = GLPI_CLIENT(
-        url = os.environ.get("URL"),
-        apptoken = os.environ.get("APP_TOKEN"),
-        auth = os.environ.get("API_TOKEN")
-    )
-    # glpi = None
+    glpi = None
 except GLPIError as err:
     print("Error", str(err))

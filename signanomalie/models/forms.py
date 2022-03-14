@@ -10,7 +10,7 @@ class SignalForm(FlaskForm):
     batiment = SelectField('Bâtiment',choices=[])
     salle = SelectField('Salle',choices=[])
     materiel = SelectField('Matériel',choices=[])
-    probleme = SelectField('Problème',choices=[])
+    probleme = StringField('Résumez le problème')
     priorite = SelectField('Priorité',choices=[])
     desc = TextAreaField('Décrivez le problème succinctement')
     envoyer = SubmitField("Envoyer")

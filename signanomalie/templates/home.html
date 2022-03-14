@@ -56,15 +56,13 @@
                 </div>
             </div>
 
-
+            
             <div class="pb">
                 <label for="probleme" class="form-label"><strong>Problème</strong></label>
-                <select class="form-select" id="probleme" required>
-                    <option value="" disabled selected hidden>Quel est le problème ?</option>
-                    {% for choice in choicesProbleme %}
-                    <option>{{ choice }}</option>
-                    {% endfor %}
-                </select>
+                <div class="form-floating">
+                    {{ form.probleme(class_="form-control") }}
+                    {{ form.probleme.label(class_="form-label") }}
+                </div>
             </div>
 
 
