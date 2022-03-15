@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block main %}
+<h1 class="text-center">{{ title }}</h1>
+
+<body>
+
+    <div name="container1" class="container">
+        <form action="" method="POST" class="needs-validation" novalidate>
+            {{ form.hidden_tag() }}
+
+            <div class="bat">
+                <label for="batiment" class="form-label"><strong>Bâtiment</strong></label>
+                <select class="form-select" id="batiment" required>
+                    <option value="" disabled selected hidden>Choisissez un département</option>
+                    {% for choice in choicesbat %}
+                    <option>{{ choice }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="SalleMateriel">
+                <div class="row">
+                    <div class="col">
+                        <label for="salle" class="form-label"><strong>Salle</strong></label>
+                        <select class="form-select" id="salle" required>
+                            <option value="" disabled selected hidden>Choisissez une salle</option>
+                            {% for choice in choicesSalleInfo %}
+                            <option>{{ choice }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col">
+                        <label for="materiel" class="form-label"><strong>Matériel</strong></label>
+                        <select class="form-select" id="materiel" required>
+                            <option value="" disabled selected hidden>Quel est le matériel défectueux ?</option>
+                            {% for choice in choicesMateriel %}
+                            <option>{{ choice }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="boutons">
+                <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Valider et envoyer le ticket">Envoyer</button>
+            
+                <button type="reset" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Remettre tous les champs à vide">Reset</button>
+            </div>
+        
+        </form>
+    </div>
+
+</body>
+{% endblock %}

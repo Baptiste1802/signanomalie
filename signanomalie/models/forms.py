@@ -15,3 +15,11 @@ class SignalForm(FlaskForm):
     desc = TextAreaField('Décrivez le problème succinctement')
     envoyer = SubmitField("Envoyer")
     reset = SubmitField("Reset")
+
+
+class QrCodeForm(FlaskForm):
+    batiment=SelectField('Bâtiment', choices=[])
+    salle = SelectField('Salle',choices=[])
+    materiel = SelectField('Matériel',choices=[])
+    envoyer = SubmitField('Envoyer')
+    reset = SubmitField("Reset")
