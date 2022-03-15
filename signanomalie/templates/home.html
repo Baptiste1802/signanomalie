@@ -24,8 +24,12 @@
 
             <div class="bat">
                 <label for="batiment" class="form-label"><strong>Bâtiment</strong></label>
-                <select class="form-select" id="batiment" required>
+                <select class="form-select" id="batiment" name="batiment" required>
+                    {% if prefillBat == None %}
                     <option value="" disabled selected hidden>Choisissez un département</option>
+                    {%else%}
+                    <option selected hidden> {{prefillBat}} </option>
+                    {%endif%}
                     {% for choice in choicesbat %}
                     <option>{{ choice }}</option>
                     {% endfor %}
@@ -36,8 +40,12 @@
                 <div class="row">
                     <div class="col">
                         <label for="salle" class="form-label"><strong>Salle</strong></label>
-                        <select class="form-select" id="salle" required>
-                            <option value="" disabled selected hidden>Choisissez une salle</option>
+                        <select class="form-select" id="salle" name="salle" required>
+                            {% if prefillSalle == None %}
+                            <option value="" disabled selected hidden> Choisissez une salle </option>
+                            {%else%}
+                            <option selected hidden> {{prefillSalle}} </option>
+                            {%endif%}
                             {% for choice in choicesSalleInfo %}
                             <option>{{ choice }}</option>
                             {% endfor %}
@@ -46,8 +54,12 @@
 
                     <div class="col">
                         <label for="materiel" class="form-label"><strong>Matériel</strong></label>
-                        <select class="form-select" id="materiel" required>
-                            <option value="" disabled selected hidden>Quel est le matériel défectueux ?</option>
+                        <select class="form-select" id="materiel" name="materiel" required>
+                            {% if prefillMateriel == None %}
+                            <option value="" disabled selected hidden>Choisissez un département</option>
+                            {%else%}
+                            <option selected hidden> {{prefillMateriel}} </option>
+                            {%endif%}
                             {% for choice in choicesMateriel %}
                             <option>{{ choice }}</option>
                             {% endfor %}

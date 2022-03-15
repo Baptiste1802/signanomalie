@@ -1,6 +1,7 @@
 from flask import render_template
 from .models.forms import SignalForm, QrCodeForm
 from .app import app, glpi
+from flask import request
 
 @app.route("/")
 def home():
@@ -15,6 +16,9 @@ def home():
         "home.html",
         title = "SignAnomalie",
         form=form,
+        prefillBat = request.args.get('batiment'),
+        prefillSalle = request.args.get('salle'),
+        prefillMateriel = request.args.get('materiel'),
         choicesbat=choicesbat,
         choicesSalleInfo=choicesSalleInfo,
         choicesMateriel=choicesMateriel,
@@ -31,6 +35,9 @@ def qrcode():
     choicesbat = form.batiment.choices = ["grrrr"]
     choicesSalleInfo = form.salle.choices = ["I01","I02","I03","I04","I05","I06","I07"]
     choicesMateriel = form.materiel.choices = ["Clavier","Souris","Ecran","Unité centrale","Vidéo Projecteur"]
+
+    if form.validate_on_submit():
+        user=form.generateQRCode()
 
     return render_template(
         "qrcode.html",
