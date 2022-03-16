@@ -13,7 +13,15 @@
                 {{ form.mail.label(class_="form-label") }}
             </div>
 
-            <div class="form-check form-switch">
+            {% if form.mail.errors %}
+
+            <div class="alert alert-danger mb-3">
+                {{ form.mail.errors[0] }}
+            </div>
+
+            {% endif %}
+
+            <div class="form-check form-switch mb-3">
                 {{ form.mailDeSuivi(class_="form-check-input") }}
                 {{ form.mailDeSuivi.label(class_="form-check-label") }}
             </div>
@@ -22,6 +30,14 @@
                 {{ form.batiment.label(class_="form-label") }}
                 {{ form.batiment(class_="form-select") }}
             </div>
+
+            {% if form.batiment.errors %}
+
+            <div class="alert alert-danger mb-3">
+                {{ form.batiment.errors[0] }}
+            </div>
+
+            {% endif %}
 
             <div class="mb-3">
                 <div class="row">
@@ -35,17 +51,42 @@
                         {{ form.materiel(class_="form-select")}}
                     </div>
                 </div>
+
+                {% if form.salle.errors %}
+
+                <div class="alert alert-danger mb-3">
+                    {{ form.salle.errors[0] }}
+                </div>
+    
+                {% endif %}
             </div>
 
             <div class="form-floating mb-3">
                 {{ form.probleme(class_="form-control") }}
                 {{ form.probleme.label(class_="form-label") }}
+
             </div>
+
+            {% if form.probleme.errors %}
+
+            <div class="alert alert-danger mb-3">
+                {{ form.probleme.errors[0] }}
+            </div>
+
+            {% endif %}
 
             <div class="mb-3">
                 {{ form.priorite.label(class_="form-label")}}
                 {{ form.priorite(class_="form-select")}}
             </div>
+
+            {% if form.priorite.errors %}
+
+            <div class="alert alert-danger mb-3">
+                {{ form.priorite.errors[0] }}
+            </div>
+
+            {% endif %}
 
             <div class="form-floating mb-3">
                 {{ form.desc(class_="form-control") }}
@@ -58,11 +99,11 @@
                 <input class="form-control" type="file" id="formFile">
             </div>
 
-            <div class="boutons">
-                <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Valider et envoyer le ticket">Envoyer</button>
-            
-                <button type="reset" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Remettre tous les champs à vide">Reset</button>
+            <div class="mb-3">
+                {{ form.envoyer(class_="btn btn-primary") }}
+                {{ form.reset(class_="btn btn-danger ")}}
             </div>
+
         
         </form>
 
