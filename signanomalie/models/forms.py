@@ -5,13 +5,13 @@ from wtforms import StringField, SelectField, PasswordField, BooleanField, TextA
 from wtforms.validators import DataRequired, InputRequired, Length, Email, URL, ValidationError
 
 class SignalForm(FlaskForm):
-    mail = StringField('Renseignez votre adresse mail', validators=[DataRequired(),Email()], render_kw={"placeholder" : ""})
+    mail = StringField('Renseignez votre adresse mail', validators=[DataRequired(),Email()], render_kw={"placeholder" : "-"})
     mailDeSuivi = BooleanField('Recevoir des mails de suivi')
     batiment = SelectField('Bâtiment', choices= [(id, name) for id, name in glpi.batiments.items()])
     salle = SelectField('Salle',choices=[])
     materiel = SelectField('Matériel',choices=[])
-    probleme = StringField('Résumez le problème', render_kw={"placeholder" : ""})
+    probleme = StringField('Résumez le problème', render_kw={"placeholder" : "-"})
     priorite = SelectField('Priorité',choices=[(id, name) for id, name in glpi.priorite.items()])
-    desc = TextAreaField('Décrivez le problème succinctement', render_kw={"placeholder" : ""})
+    desc = TextAreaField('Décrivez le problème succinctement', render_kw={"placeholder" : "-"})
     envoyer = SubmitField("Envoyer")
     reset = SubmitField("Reset")
