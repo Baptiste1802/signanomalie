@@ -1,5 +1,4 @@
-from flask import url_for
-from ..app import app
+from ..app import app, glpi
 from flask_wtf import FlaskForm
 from wtforms.fields.simple import HiddenField, SubmitField
 from wtforms import StringField, SelectField, PasswordField, BooleanField, TextAreaField, EmailField, RadioField, FileField
@@ -11,14 +10,14 @@ from wtforms.widgets.core import html_params
 
 
 class SignalForm(FlaskForm):
-    mail = EmailField('Renseignez votre adresse mail',[DataRequired(),Email()])
+    mail = StringField('Renseignez votre adresse mail', validators=[DataRequired(),Email()], render_kw={"placeholder" : ""})
     mailDeSuivi = BooleanField('Recevoir des mails de suivi')
-    batiment = SelectField('Bâtiment',choices=[])
+    batiment = SelectField('Bâtiment', choices= [(id, name) for id, name in glpi.batiments.items()])
     salle = SelectField('Salle',choices=[])
     materiel = SelectField('Matériel',choices=[])
-    probleme = StringField('Résumez le problème')
-    priorite = SelectField('Priorité',choices=[])
-    desc = TextAreaField('Décrivez le problème succinctement')
+    probleme = StringField('Résumez le problème', render_kw={"placeholder" : ""})
+    priorite = SelectField('Priorité',choices=[(id, name) for id, name in glpi.priorite.items()])
+    desc = TextAreaField('Décrivez le problème succinctement', render_kw={"placeholder" : ""})
     envoyer = SubmitField("Envoyer")
     reset = SubmitField("Reset")
 

@@ -8,96 +8,52 @@
         <form action="" method="POST" class="needs-validation" novalidate>
             {{ form.hidden_tag() }}
 
-            <div class="mail">
-                <div class="form-floating">
-                    {{ form.mail(class_="form-control") }}
-                    {{ form.mail.label(class_="form-label") }}
-                </div>
+            <div class="form-floating mb-3">
+                {{ form.mail(class_="form-control") }}
+                {{ form.mail.label(class_="form-label") }}
             </div>
 
-            <div class="active">
-                <div class="form-check form-switch">
-                    {{ form.mailDeSuivi(class_="form-check-input") }}
-                    {{ form.mailDeSuivi.label(class_="form-check-label") }}
-                </div>
+            <div class="form-check form-switch">
+                {{ form.mailDeSuivi(class_="form-check-input") }}
+                {{ form.mailDeSuivi.label(class_="form-check-label") }}
             </div>
 
-            <div class="bat">
-                <label for="batiment" class="form-label"><strong>Bâtiment</strong></label>
-                <select class="form-select" id="batiment" name="batiment" required>
-                    {% if prefillBat == None %}
-                    <option value="" disabled selected hidden>Choisissez un département</option>
-                    {%else%}
-                    <option selected hidden> {{prefillBat}} </option>
-                    {%endif%}
-                    {% for choice in choicesbat %}
-                    <option>{{ choice }}</option>
-                    {% endfor %}
-                </select>
+            <div class="mb-3">
+                {{ form.batiment.label(class_="form-label") }}
+                {{ form.batiment(class_="form-select") }}
             </div>
 
-            <div class="SalleMateriel">
+            <div class="mb-3">
                 <div class="row">
-                    <div class="col">
-                        <label for="salle" class="form-label"><strong>Salle</strong></label>
-                        <select class="form-select" id="salle" name="salle" required>
-                            {% if prefillSalle == None %}
-                            <option value="" disabled selected hidden> Choisissez une salle </option>
-                            {%else%}
-                            <option selected hidden> {{prefillSalle}} </option>
-                            {%endif%}
-                            {% for choice in choicesSalleInfo %}
-                            <option>{{ choice }}</option>
-                            {% endfor %}
-                        </select>
+                    <div class="col mb-3">
+                        {{ form.salle.label(class_="form-label") }}
+                        {{ form.salle(class_="form-select") }}
                     </div>
 
-                    <div class="col">
-                        <label for="materiel" class="form-label"><strong>Matériel</strong></label>
-                        <select class="form-select" id="materiel" name="materiel" required>
-                            {% if prefillMateriel == None %}
-                            <option value="" disabled selected hidden>Choisissez un département</option>
-                            {%else%}
-                            <option selected hidden> {{prefillMateriel}} </option>
-                            {%endif%}
-                            {% for choice in choicesMateriel %}
-                            <option>{{ choice }}</option>
-                            {% endfor %}
-                        </select>
+                    <div class="col mb-3">
+                        {{ form.materiel.label(class_="form-label") }}
+                        {{ form.materiel(class_="form-select")}}
                     </div>
                 </div>
             </div>
 
-            
-            <div class="pb">
-                <label for="probleme" class="form-label"><strong>Problème</strong></label>
-                <div class="form-floating">
-                    {{ form.probleme(class_="form-control") }}
-                    {{ form.probleme.label(class_="form-label") }}
-                </div>
+            <div class="form-floating mb-3">
+                {{ form.probleme(class_="form-control") }}
+                {{ form.probleme.label(class_="form-label") }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.priorite.label(class_="form-label")}}
+                {{ form.priorite(class_="form-select")}}
+            </div>
+
+            <div class="form-floating mb-3">
+                {{ form.desc(class_="form-control") }}
+                {{ form.desc.label(class_="form-label") }}
             </div>
 
 
-            <div class="prio">
-                <label for="priorite" class="form-label"><strong>Priorité</strong></label>
-                <select class="form-select" id="priorite" required>
-                    <option value="" disabled selected hidden>Définissez une priorité à votre problème</option>
-                    {% for choice in choicesPriorite %}
-                    <option>{{ choice }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="description">
-                <label for="desc" class="form-label"><strong>Description</strong></label>
-                <div class="form-floating">
-                    {{ form.desc(class_="form-control") }}
-                    {{ form.desc.label(class_="form-label") }}
-                </div>
-            </div>
-
-
-            <div class="centre">
+            <div class="mb-3">
                 <label for="formFile" class="ajoutphoto"><strong>Ajoutez une photo</strong></label>
                 <input class="form-control" type="file" id="formFile">
             </div>
@@ -109,6 +65,57 @@
             </div>
         
         </form>
+
+        <script>
+            let batiment_select = document.getElementById("batiment");
+            let salle_select = document.getElementById("salle");
+            let materiel_select = document.getElementById("materiel");
+
+            batiment_select.onchange = async function(){
+                try
+                {
+                    batiment = batiment_select.value;
+                    const response = await fetch("/api/get/locations/" + batiment);
+                    console.log(response.status)
+                    if (!response.ok){
+                        throw new Error(response.text)
+                    }
+                    const salles = await response.json();
+                    let optionHTML = "";
+                    for (let id in salles){
+                        optionHTML += '<option value="' + id + '">' + salles[id] + '</option>'; 
+                    }
+                    salle_select.innerHTML = optionHTML;
+                }
+                catch (error)
+                {
+                    console.error(error)
+                }
+            }
+
+            salle_select.onchange = async function(){
+                try
+                {
+                    salle = salle_select.value;
+                    const response = await fetch("/api/get/computers/" + salle);
+                    console.log(response.status)
+                    if (!response.ok){
+                        throw new Error(response.text)
+                    }
+                    const computers = await response.json();
+                    let optionHTML = "";
+                    for (let id in computers){
+                        optionHTML += '<option value="' + id + '">' + computers[id] + '</option>'; 
+                    }
+                    materiel_select.innerHTML = optionHTML;
+                }
+                catch (error)
+                {
+                    console.error(error)
+                }
+            }
+
+        </script>
     </div>
 
 </body>
