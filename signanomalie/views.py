@@ -2,7 +2,7 @@ from flask import render_template, jsonify
 from .models.forms import SignalForm
 from .app import app, glpi
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def home():
     form=SignalForm()
 
