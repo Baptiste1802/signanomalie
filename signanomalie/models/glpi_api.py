@@ -451,7 +451,7 @@ class GLPI:
              'entities_id': 0,
              'name': 'test',
             ...
-            # Retrieve deleted computers.
+            # Retrieve deleted computers.
             >>> glpi.get_all_items('Computer', is_deleted=True)
             []
         """
