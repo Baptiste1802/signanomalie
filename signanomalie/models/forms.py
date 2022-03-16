@@ -6,6 +6,9 @@ from wtforms import StringField, SelectField, PasswordField, BooleanField, TextA
 from wtforms.validators import DataRequired, InputRequired, Length, Email, URL, ValidationError
 import qrcode
 import os
+from markupsafe import Markup
+from wtforms.widgets.core import html_params
+
 
 class SignalForm(FlaskForm):
     mail = EmailField('Renseignez votre adresse mail',[DataRequired(),Email()])
@@ -21,20 +24,20 @@ class SignalForm(FlaskForm):
 
 
 class QrCodeForm(FlaskForm):
-    batiment=SelectField('Bâtiment', choices=[])
-    salle = SelectField('Salle', choices=[])
-    materiel = SelectField('Matériel', choices=[])
+    batiment=SelectField('Bâtiment', choices=[],)
+    salle = SelectField('Salle', choices=[],)
+    materiel = SelectField('Matériel', choices=[],)
     envoyer = SubmitField('Envoyer')
     reset = SubmitField("Reset")
 
     def generateQRCode(this):
         link = os.environ.get("URL") + "/?"
         if (this.batiment.data != None):
-            link += this.batiment.data
+            link += "batiment"+this.batiment.data
         if (this.salle.data != None):
-            link += this.salle.data
+            link += "salle" + this.salle.data
         if (this.materiel.data != None):
-            link += this.materiel.data
+            link += "materiel" + this.materiel.data
         
         qr = qrcode.QRCode(
             version=1,
@@ -43,6 +46,8 @@ class QrCodeForm(FlaskForm):
             border=4,
         )
         qr.add_data(link)
+        print(link)
         qr.make(fit=True)
         img = qr.make_image(fill_color="black", back_color="white")
         img.save("signanomalie/qrcode/newqr.png")
+

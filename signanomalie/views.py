@@ -32,18 +32,19 @@ def home():
 @app.route("/qrcode/", methods =("GET","POST"))
 def qrcode():
     form=QrCodeForm()
-    choicesbat = form.batiment.choices = ["grrrr"]
-    choicesSalleInfo = form.salle.choices = ["I01","I02","I03","I04","I05","I06","I07"]
-    choicesMateriel = form.materiel.choices = ["Clavier","Souris","Ecran","Unité centrale","Vidéo Projecteur"]
-    if form.is_submitted():
+    form.batiment.choices = [("auto","Choisissez un département"),("info","Informatique")]
+    form.batiment.default = "auto"
+    form.batiment(option_attr={"customselect-0": {"disabled": "auto"} })
+    form.salle.choices = [("auto","Choisissez une salle"),("i01","I01"),("i02","I02"),("i03","I03"),("i04","I04"),("i05","I05"),("i06","I06"),("i07","I07")]
+    form.salle(option_attr={"customselect-0": {"disabled": "auto"} })
+    form.materiel.choices = [("auto","Choisissez un matériel"),("clavier","Clavier"),("souris","Souris"),("ecran","Ecran"),("unitecentrale","Unité centrale"),("videoproj","Vidéo Projecteur")]
+    form.materiel(option_attr={"customselect-0": {"disabled": "auto"} })
+    if form.validate_on_submit():
         form.generateQRCode()
     return render_template(
         "qrcode.html",
         title = "SignAnomalie",
-        form=form,
-        choicesbat=choicesbat,
-        choicesSalleInfo=choicesSalleInfo,
-        choicesMateriel=choicesMateriel,
+        form=form
         # locations = glpi.get_locations()
     
     )

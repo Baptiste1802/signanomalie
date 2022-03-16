@@ -8,6 +8,11 @@
         <form action="" method="POST" class="needs-validation" novalidate>
             {{ form.hidden_tag() }}
 
+            {{ form.crsf_token}}
+            {{ form.batiment}}
+            {{form.salle}}
+            {{form.materiel}}
+<!-- 
             <div class="bat">
                 <label for="batiment" class="form-label"><strong>Bâtiment</strong></label>
                 <select class="form-select" id="batiment" required>
@@ -40,7 +45,7 @@
                         </select>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="boutons">
                 <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Valider et envoyer le ticket">Envoyer</button>
