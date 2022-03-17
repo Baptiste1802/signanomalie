@@ -28,11 +28,15 @@ class SignalForm(FlaskForm):
             InputRequired(message="Veuillez selectionner une salle")
         ])
 
-    materiel = SelectFieldNoValidation('Matériel', choices=[])
+    materiel = SelectFieldNoValidation('Nom du materiel', choices=[])
 
-    probleme = StringField('Résumez le problème', render_kw={"placeholder" : "-"},
-        validators=[InputRequired(message="Veuillez indiquer le problème")
-        ])
+    type_materiel = SelectField('Type de matériel', choices=[
+        ("Monitor", "Écran"),
+        ("Computer", "Ordinateur"),
+        ("Printer", "Imprimante")
+    ])
+
+    probleme = SelectFieldNoValidation('Probleme', choices=[])
 
     priorite = SelectField('Priorité', choices=[(id, name) for id, name in glpi.priorite.items()],
         validators=[InputRequired(message="Veuiller selectionner la priorité")
