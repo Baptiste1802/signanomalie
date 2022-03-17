@@ -3,3 +3,7 @@ main{
     margin-right: 10px;
     margin-left: 10px;
 }
+
+.nav-item{
+    list-style-type: none;
+}
