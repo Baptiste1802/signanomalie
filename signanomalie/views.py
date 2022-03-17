@@ -9,8 +9,19 @@ def home():
     form = SignalForm()
 
     if form.validate_on_submit():
-        return "h1"
+        notification = form.mailDeSuivi.data
+        print(notification)
+        id_salle = form.salle.data
+        materiel = form.materiel.data
+        mail = form.mail.data
+        priorite = form.priorite.data
+        probleme = form.probleme.data
+        desc = form.desc.data
 
+        print(materiel)
+    
+        glpi.create_ticket(probleme, desc, mail, priorite, id_salle, materiel, notification)
+        
     return render_template(
         "home.html",
         title = "SignAnomalie",

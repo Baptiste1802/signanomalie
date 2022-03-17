@@ -38,17 +38,17 @@ class GLPI_CLIENT(GLPI):
         forcedisplay = []
         return self.search('Ticket_user', criteria = criteria, forcedisplay = forcedisplay)
 
-    def create_ticket(self, title, content, email, priorite, categorie, location):
+    def create_ticket(self, title, content, email, priority, location, device, notification):
         self.add("Ticket", 
-                {"name" : title, 
+                {"name" : title + " - " + device, 
                 "content" : content,
-                "urgency" : priorite,
-                "itilcategories_id" : self.categories.get(categorie),
-                "locations_id" : self.locations.get(location),
+                "urgency" : priority,
+                "itilcategories_id" : 14,
+                "locations_id" : location,
                 "type" : 1,
                 "_users_id_requester" : 0,
                 "_users_id_requester_notif" : {
-                    "use_notification" : 1, 
+                    "use_notification" : notification, 
                     "alternative_email" : [email]
                     }
                 }

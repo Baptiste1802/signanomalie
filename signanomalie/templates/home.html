@@ -146,7 +146,7 @@
                     const computers = await response.json();
                     let optionHTML = "";
                     for (let id in computers){
-                        optionHTML += '<option value="' + id + '">' + computers[id] + '</option>'; 
+                        optionHTML += '<option value="' + computers[id] + '">' + computers[id] + '</option>'; 
                     }
                     materiel_select.innerHTML = optionHTML;
                 }
