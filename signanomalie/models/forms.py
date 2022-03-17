@@ -20,15 +20,15 @@ class SignalForm(FlaskForm):
 
     batiment = SelectFieldNoValidation('Bâtiment', choices=[(id, name) for id, name in glpi.batiments.items()],
         validators=[
-            InputRequired(message="Veuillez selectionner un bâtiment")
+            InputRequired(message="Veuillez sélectionner un bâtiment")
         ])
 
     salle = SelectFieldNoValidation('Salle', choices=[],
         validators=[
-            InputRequired(message="Veuillez selectionner une salle")
+            InputRequired(message="Veuillez sélectionner une salle")
         ])
 
-    materiel = SelectFieldNoValidation('Nom du materiel', choices=[])
+    materiel = SelectFieldNoValidation('Nom du matériel', choices=[])
 
     type_materiel = SelectField('Type de matériel', choices=[
         ("Monitor", "Écran"),
@@ -36,7 +36,7 @@ class SignalForm(FlaskForm):
         ("Printer", "Imprimante")
     ])
 
-    probleme = SelectFieldNoValidation('Probleme', choices=[])
+    probleme = SelectFieldNoValidation('Problème', choices=[])
 
     priorite = SelectField('Priorité', choices=[(id, name) for id, name in glpi.priorite.items()],
         validators=[InputRequired(message="Veuiller selectionner la priorité")
