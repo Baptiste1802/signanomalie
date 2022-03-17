@@ -5,7 +5,7 @@
 <body>
 
     <div name="container1" class="container">
-        <form action="" method="POST" class="needs-validation" novalidate>
+        <form id="QRForm" action="" method="POST" class="needs-validation" novalidate>
             {{ form.hidden_tag() }}
 
             <div class="mb-3">
@@ -27,12 +27,14 @@
                 </div>
             </div>
             <div class="boutons">
-                <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Générer ">Générer</button>
-            
-                <button type="reset" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Remettre tous les champs à vide">Reset</button>
+                <button type="submit" data-toggle="tooltip" data-placement="bottom" title="Générer" id="valider" class="btn btn-primary" >Générer</button>
+
+                {% if afficherButton %}
+                    <a href=/downloadfile/{{name}} target="blank" data-toggle="tooltip" data-placement="bottom" title="afficher" id="pdf" class="btn btn-primary">Get PDF</a>
+                {%endif %}
             </div>
-        
         </form>
+
     </div>
 
 

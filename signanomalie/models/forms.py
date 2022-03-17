@@ -7,6 +7,7 @@ from wtforms.validators import DataRequired, InputRequired, Length, Email, URL, 
 import qrcode
 import os
 from markupsafe import Markup
+from .generateurPDF import generationPDF
 
 
 class SignalForm(FlaskForm):
@@ -31,7 +32,6 @@ class QrCodeForm(FlaskForm):
     salle = SelectField('Salle',choices=[])
     materiel = SelectField('Matériel',choices=[])
     envoyer = SubmitField('Envoyer')
-    reset = SubmitField("Reset")
 
     def generateQRCode(self):
         link = os.environ.get("URL") + "?"
@@ -57,4 +57,5 @@ class QrCodeForm(FlaskForm):
         qr.make(fit=True)
         img = qr.make_image(fill_color="black", back_color="white")
         img.save("signanomalie/qrcode/newqr.png")
+        return generationPDF(batiment_selectionne, salle_selectionnee, materiel_selectionne, "signanomalie/qrcode/newqr.png")
 

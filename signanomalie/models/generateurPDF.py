@@ -1,4 +1,6 @@
 from fpdf import FPDF
+import glob
+import os
 
 length = 148
 width = 105
@@ -32,19 +34,25 @@ def generationPDF(bat, salle, materiel, qr):
             if salle != None:
                 self.cell(0, 5, 'Salle ' + salle, ln=True, align='C')
             if materiel != None :
-                self.cell(0, 5, "Machine " + salle, ln=True, align='C')
+                self.cell(0, 5, "Machine " + materiel, ln=True, align='C')
 
             # Logo IUT'O
-            self.image("img/iut.jpeg", x=width/2-20, y=length-23, w=40)
+            self.image("signanomalie/static/pdf/img/iut.jpeg", x=width/2-20, y=length-23, w=40)
 
 
     pdf = PDF('P', 'mm', (105,148))
     pdf.add_page()
+    files = glob.glob('signanomalie/static/pdf/*.pdf')
+    for file in files:
+        os.remove(file)
 
     # Création du PDF
     if salle == None:
-        pdf.output('Fiche_info_bat_' + bat + '.pdf')
-    elif materiel == None:
-        pdf.output('Fiche_info_salle_' + salle + '.pdf')
+        path = 'Fiche_info_bat_' + bat + '.pdf'
+    elif materiel == "Aucun":
+        path = 'Fiche_info_salle_' + salle + '.pdf'
     else :
-        pdf.output('Fiche_info_materiel_' + materiel + '.pdf')
+        path = 'Fiche_info_materiel_' + materiel + '.pdf'
+    pdf.output('signanomalie/static/pdf/' + path)
+    return path
+    
