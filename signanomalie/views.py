@@ -5,7 +5,8 @@ from .app import app, glpi
 
 @app.route("/", methods = ["GET", "POST"])
 def home():
-    form=SignalForm()
+
+    form = SignalForm()
 
     if form.validate_on_submit():
         return "h1"
