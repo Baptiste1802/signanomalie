@@ -1,3 +1,4 @@
+from sqlalchemy import null
 from ..app import app, glpi
 from flask_wtf import FlaskForm
 from wtforms.fields.simple import HiddenField, SubmitField
@@ -6,7 +7,6 @@ from wtforms.validators import DataRequired, InputRequired, Length, Email, URL, 
 import qrcode
 import os
 from markupsafe import Markup
-from wtforms.widgets.core import html_params
 
 
 class SignalForm(FlaskForm):
@@ -21,22 +21,30 @@ class SignalForm(FlaskForm):
     envoyer = SubmitField("Envoyer")
     reset = SubmitField("Reset")
 
+        
+
+        
+
 
 class QrCodeForm(FlaskForm):
-    batiment=SelectField('Bâtiment', choices=[],)
-    salle = SelectField('Salle', choices=[],)
-    materiel = SelectField('Matériel', choices=[],)
+    batiment = SelectField('Bâtiment', choices= [(id, name) for id, name in glpi.batiments.items()])
+    salle = SelectField('Salle',choices=[])
+    materiel = SelectField('Matériel',choices=[])
     envoyer = SubmitField('Envoyer')
     reset = SubmitField("Reset")
 
-    def generateQRCode(this):
-        link = os.environ.get("URL") + "/?"
-        if (this.batiment.data != None):
-            link += "batiment"+this.batiment.data
-        if (this.salle.data != None):
-            link += "salle" + this.salle.data
-        if (this.materiel.data != None):
-            link += "materiel" + this.materiel.data
+    def generateQRCode(self):
+        link = os.environ.get("URL") + "?"
+        batiment_selectionne = self.batiment.data
+        salle_selectionnee = self.salle.data
+        materiel_selectionne = self.materiel.data
+        if (batiment_selectionne != None):
+            link += "batiment="+batiment_selectionne+"&"
+        if (salle_selectionnee != None):
+            link += "salle=" + salle_selectionnee+"&"
+        if (materiel_selectionne != None and materiel_selectionne != "Aucun"):
+            link += "materiel=" + materiel_selectionne
+        print(link)
         
         qr = qrcode.QRCode(
             version=1,

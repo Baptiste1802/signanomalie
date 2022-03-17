@@ -8,53 +8,84 @@
         <form action="" method="POST" class="needs-validation" novalidate>
             {{ form.hidden_tag() }}
 
-            {{ form.crsf_token}}
-            {{ form.batiment}}
-            {{form.salle}}
-            {{form.materiel}}
-<!-- 
-            <div class="bat">
-                <label for="batiment" class="form-label"><strong>Bâtiment</strong></label>
-                <select class="form-select" id="batiment" required>
-                    <option value="" disabled selected hidden>Choisissez un département</option>
-                    {% for choice in choicesbat %}
-                    <option>{{ choice }}</option>
-                    {% endfor %}
-                </select>
+            <div class="mb-3">
+                {{ form.batiment.label(class_="form-label") }}
+                {{ form.batiment(class_="form-select") }}
             </div>
 
-            <div class="SalleMateriel">
+            <div class="mb-3">
                 <div class="row">
-                    <div class="col">
-                        <label for="salle" class="form-label"><strong>Salle</strong></label>
-                        <select class="form-select" id="salle" required>
-                            <option value="" disabled selected hidden>Choisissez une salle</option>
-                            {% for choice in choicesSalleInfo %}
-                            <option>{{ choice }}</option>
-                            {% endfor %}
-                        </select>
+                    <div class="col mb-3">
+                        {{ form.salle.label(class_="form-label") }}
+                        {{ form.salle(class_="form-select") }}
                     </div>
 
-                    <div class="col">
-                        <label for="materiel" class="form-label"><strong>Matériel</strong></label>
-                        <select class="form-select" id="materiel" required>
-                            <option value="" disabled selected hidden>Quel est le matériel défectueux ?</option>
-                            {% for choice in choicesMateriel %}
-                            <option>{{ choice }}</option>
-                            {% endfor %}
-                        </select>
+                    <div class="col mb-3">
+                        {{ form.materiel.label(class_="form-label") }}
+                        {{ form.materiel(class_="form-select")}}
                     </div>
                 </div>
-            </div> -->
-
+            </div>
             <div class="boutons">
-                <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Valider et envoyer le ticket">Envoyer</button>
+                <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Générer ">Générer</button>
             
                 <button type="reset" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Remettre tous les champs à vide">Reset</button>
             </div>
         
         </form>
     </div>
+
+
+    <script>
+        let batiment_select = document.getElementById("batiment");
+        let salle_select = document.getElementById("salle");
+        let materiel_select = document.getElementById("materiel");
+
+        batiment_select.onchange = async function(){
+            try
+            {
+                batiment = batiment_select.value;
+                const response = await fetch("/api/get/locations/" + batiment);
+                console.log(response.status)
+                if (!response.ok){
+                    throw new Error(response.text)
+                }
+                const salles = await response.json();
+                let optionHTML = "";
+                for (let id in salles){
+                    optionHTML += '<option value="' + id + '">' + salles[id] + '</option>'; 
+                }
+                salle_select.innerHTML = optionHTML;
+            }
+            catch (error)
+            {
+                console.error(error)
+            }
+        }
+
+        salle_select.onchange = async function(){
+            try
+            {
+                salle = salle_select.value;
+                const response = await fetch("/api/get/computers/" + salle);
+                console.log(response.status)
+                if (!response.ok){
+                    throw new Error(response.text)
+                }
+                const computers = await response.json();
+                let optionHTML = "<option value=-1> Aucun </option>";
+                for (let id in computers){
+                    optionHTML += '<option value="' + id + '">' + computers[id] + '</option>'; 
+                }
+                materiel_select.innerHTML = optionHTML;
+            }
+            catch (error)
+            {
+                console.error(error)
+            }
+        }
+
+    </script>
 
 </body>
 {% endblock %}
