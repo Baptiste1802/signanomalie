@@ -1,3 +1,4 @@
+from crypt import methods
 from flask import render_template, jsonify
 from .models.forms import QrCodeForm, SignalForm
 from .app import app
