@@ -71,6 +71,14 @@ class GLPI_CLIENT(GLPI):
         computers = self.get_sub_items("Location", location_id, "Computer")
         return { computers["id"] : computers["name"] for computers in computers }
 
+    def get_printers_per_location(self, location_id):
+        printers = self.get_sub_items("Location", location_id, "Printer")
+        return { printer["id"] : printer["name"] for printer in printers }
+
+    def get_monitors_per_location(self, location_id):
+        monitors = self.get_sub_items("Location", location_id, "Monitor")
+        return { monitor["id"] : monitor["name"] for monitor in monitors }
+
     def get_sub_locations(self, location_id):
         locations = self.get_sub_items("Location", location_id, "Location")
         return { location["id"] : location["name"] for location in locations}
