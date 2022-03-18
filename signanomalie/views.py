@@ -5,6 +5,9 @@ from .app import app, glpi
 
 @app.route("/", methods =("GET","POST"))
 def home():
+    """
+    Route à la racine du site internet qui contient le formulaire de signalement et qui gère son traitement
+    """
 
     form = SignalForm()
     success = False
@@ -30,6 +33,9 @@ def home():
 
 @app.route("/qrcode/", methods =("GET","POST"))
 def qrcode():
+    """
+    Route qui permet d'afficher un formulaire qui une fois complété génère un QRCode associé
+    """
     form=QrCodeForm()
     afficherButton = False
     name=None
@@ -48,5 +54,8 @@ def qrcode():
 
 @app.route("/downloadfile/<filename>", methods = ['GET'])
 def download_file(filename):
+    """
+    Route qui permet de télécharger un fichier nommé <filename> contenu dans /static/pdf
+    """
     file_path = 'static/pdf/' + filename
     return send_file(file_path, as_attachment=True, attachment_filename='')
