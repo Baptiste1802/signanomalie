@@ -85,12 +85,11 @@ class QrCodeForm(FlaskForm):
         """
         Permet de générer un QRCode grâce au champs du formulaire remplis
         """
-        link = os.environ.get("URL") + "?"
+        link = os.environ.get("URL_APP") + "?"
         batiment_selectionne = self.batiment.data
         salle_selectionnee = self.salle.data
         materiel_selectionne = self.materiel.data
         type_materiel_selectionne = self.type_materiel.data
-        print(type_materiel_selectionne)
         name_batiment = dict(self.batiment.choices).get(int(batiment_selectionne))
         name_salle = dict([(id, name) for id, name in glpi.locations.items()]).get(int(salle_selectionnee))
         if (batiment_selectionne != ""):
@@ -108,7 +107,6 @@ class QrCodeForm(FlaskForm):
             border=4,
         )
         qr.add_data(link)
-        print(link)
         qr.make(fit=True)
         img = qr.make_image(fill_color="black", back_color="white")
         img.save("signanomalie/static/newqr.png")
