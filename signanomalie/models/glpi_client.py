@@ -2,8 +2,14 @@ from dotenv import load_dotenv
 from .glpi_api import GLPI
 
 class GLPI_CLIENT(GLPI):
+    """
+    Hérite de GLPI et utilise ses méthodes pour accéder aux données contenues dans la base de données de l'instance de GLPI
+    """
 
     def __init__(self, url, apptoken, auth, verify_certs=True, use_headers=True):
+        """
+        Fait appel au super pour initier la session
+        """
         super().__init__(url, apptoken, auth, verify_certs, use_headers)
         self.set_active_profile(4)
         self.priorite = {
@@ -11,12 +17,6 @@ class GLPI_CLIENT(GLPI):
             1 : "normale",
             4 : "haute"
         }
-        self.update()
-
-    def update(self):
-        self.categories = self.get_cateogory_names()
-        self.locations = self.get_locations()
-        self.batiments = self.get_batiments()
 
     def get_user(self, id):
         return self.get_item("User", 20)
