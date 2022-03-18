@@ -13,7 +13,15 @@
                 {{ form.mail.label(class_="form-label") }}
             </div>
 
-            <div class="form-check form-switch">
+            {% if form.mail.errors %}
+
+            <div class="alert alert-danger mb-3">
+                {{ form.mail.errors[0] }}
+            </div>
+
+            {% endif %}
+
+            <div class="form-check form-switch mb-3">
                 {{ form.mailDeSuivi(class_="form-check-input") }}
                 {{ form.mailDeSuivi.label(class_="form-check-label") }}
             </div>
@@ -23,46 +31,83 @@
                 {{ form.batiment(class_="form-select") }}
             </div>
 
+            {% if form.batiment.errors %}
+
+            <div class="alert alert-danger mb-3">
+                {{ form.batiment.errors[0] }}
+            </div>
+
+            {% endif %}
+
+            <div class="col mb-3">
+                {{ form.salle.label(class_="form-label") }}
+                {{ form.salle(class_="form-select") }}
+            </div>
+
+            {% if form.salle.errors %}
+
+            <div class="alert alert-danger mb-3">
+                {{ form.salle.errors[0] }}
+            </div>
+
+            {% endif %}
+            
+
             <div class="mb-3">
                 <div class="row">
-                    <div class="col mb-3">
-                        {{ form.salle.label(class_="form-label") }}
-                        {{ form.salle(class_="form-select") }}
+                    <div class="col">
+                        {{ form.type_materiel.label(class_="form-label") }}
+                        {{ form.type_materiel(class_="form-select") }}
                     </div>
 
-                    <div class="col mb-3">
+                    <div class="col">
                         {{ form.materiel.label(class_="form-label") }}
                         {{ form.materiel(class_="form-select")}}
                     </div>
                 </div>
             </div>
 
-            <div class="form-floating mb-3">
-                {{ form.probleme(class_="form-control") }}
+            <div class="mb-3">
                 {{ form.probleme.label(class_="form-label") }}
+                {{ form.probleme(class_="form-select") }}
             </div>
+
+            {% if form.probleme.errors %}
+
+            <div class="alert alert-danger mb-3">
+                {{ form.probleme.errors[0] }}
+            </div>
+
+            {% endif %}
 
             <div class="mb-3">
                 {{ form.priorite.label(class_="form-label")}}
                 {{ form.priorite(class_="form-select")}}
             </div>
 
+            {% if form.priorite.errors %}
+
+            <div class="alert alert-danger mb-3">
+                {{ form.priorite.errors[0] }}
+            </div>
+
+            {% endif %}
+
             <div class="form-floating mb-3">
                 {{ form.desc(class_="form-control") }}
                 {{ form.desc.label(class_="form-label") }}
             </div>
-
-
+<!-- 
             <div class="mb-3">
                 <label for="formFile" class="ajoutphoto"><strong>Ajoutez une photo</strong></label>
                 <input class="form-control" type="file" id="formFile">
+            </div> -->
+
+            <div class="mb-3">
+                {{ form.envoyer(class_="btn btn-primary") }}
+                {{ form.reset(class_="btn btn-danger ")}}
             </div>
 
-            <div class="boutons">
-                <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Valider et envoyer le ticket">Envoyer</button>
-            
-                <button type="reset" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Remettre tous les champs à vide">Reset</button>
-            </div>
         
         </form>
 
@@ -86,13 +131,23 @@
                 }
             }
 
-            batiment_select.onchange = async function(){
+            let type_materiel_select = document.getElementById("type_materiel");
+            let probleme_select = document.getElementById("probleme");
+
+            const problemes = {
+                "Monitor" : ["Problème d'affichage", "Ne s'allume pas", "Est dégradé"],
+                "Computer" : ["Ne démarre pas", "Problème de son",  "Cable manquant", "Matériel manquant"],
+                "Printer" : ["Ne démarre pas", "Plus d'encre", "Papier manquant", "Bourrage papier", "Ne marche pas"]
+            }
+
+            getSalles();
+
+            async function getSalles(){
                 try
                 {
                     
                     batiment = batiment_select.value;
                     const response = await fetch("/api/get/locations/" + batiment);
-                    console.log(response.status)
                     if (!response.ok){
                         throw new Error(response.text)
                     }
@@ -106,6 +161,11 @@
                         }
                     }
                     salle_select.innerHTML = optionHTML;
+                    if (salle_select.value != ""){
+                        setProblemeMateriel();
+                    } else {
+                        resetField(materiel_select);
+                    }
                 }
                 catch (error)
                 {
@@ -113,31 +173,59 @@
                 }
             }
 
-            salle_select.onchange = async function(){
+            function resetField(field){
+                field.innerHTML = "<option value = '' hidden></options>";
+            }
+
+            async function getMateriel(){
                 try
                 {
                     salle = salle_select.value;
-                    const response = await fetch("/api/get/computers/" + salle);
-                    console.log(response.status)
-                    if (!response.ok){
-                        throw new Error(response.text)
-                    }
-                    const computers = await response.json();
-                    let optionHTML = "";
-                    for (let id in computers){
-                        if((materiel_input != null) && (materiel_input == id)){
-                            optionHTML += '<option value="'+ id + ' selected">' + computers[id] + '</option>'
-                        }else{
-                            optionHTML += '<option value="' + id + '">' + computers[id] + '</option>'; 
+                    if (salle.value != ""){
+                        let type = type_materiel_select.value;
+                        const response = await fetch("/api/get/" + type.toLowerCase() + "s/" + salle);
+                        if (!response.ok){
+                            throw new Error(response.text)
                         }
+                        const materiels = await response.json();
+                        let optionHTML = "<option value = '' hidden></option>";
+                        for (let id in materiels){
+                            if (materiel_input == id){
+                                optionHTML += '<option value="' + materiels[id] + '"selected>' + materiels[id] + '</option>'; 
+                            } else {
+                                optionHTML += '<option value="' + materiels[id] + '">' + materiels[id] + '</option>'; 
+                            }
+                        }
+                        materiel_select.innerHTML = optionHTML;
                     }
-                    materiel_select.innerHTML = optionHTML;
                 }
                 catch (error)
                 {
                     console.error(error)
                 }
             }
+
+            function getProbleme(){
+
+                if (type_materiel_select.value != ""){
+                    let optionHTML = "";
+                    for (let probleme of problemes[type_materiel_select.value]){
+                        optionHTML += '<option value="' + probleme + '">' + probleme + '</option>'; 
+                    }
+                    probleme_select.innerHTML = optionHTML;
+                }
+            }
+
+            function setProblemeMateriel(){
+                getMateriel();
+                getProbleme();
+            }
+
+            batiment_select.onchange = getSalles;
+
+            salle_select.onchange = setProblemeMateriel;
+
+            type_materiel_select.onchange = setProblemeMateriel;
 
         </script>
     </div>

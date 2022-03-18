@@ -1,12 +1,23 @@
-from crypt import methods
-from flask import render_template, jsonify, send_file
-from .models.forms import QrCodeForm, SignalForm
-from .app import app
+from flask import render_template, jsonify, request
+from .models.forms import SignalForm
+from .app import app, glpi
 
 
 @app.route("/", methods =("GET","POST"))
 def home():
-    form=SignalForm()
+
+    form = SignalForm()
+
+    if form.validate_on_submit():
+        notification = form.mailDeSuivi.data
+        id_salle = form.salle.data
+        materiel = form.materiel.data
+        mail = form.mail.data
+        priorite = form.priorite.data
+        probleme = form.probleme.data
+        desc = form.desc.data
+        glpi.create_ticket(probleme, desc, mail, priorite, id_salle, materiel, notification)
+
     return render_template(
         "home.html",
         title = "SignAnomalie",
@@ -23,7 +34,6 @@ def qrcode():
     if form.is_submitted():
         name=form.generateQRCode()
         afficherButton = True
-
 
     return render_template(
         "qrcode.html",
