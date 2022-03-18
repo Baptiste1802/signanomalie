@@ -70,10 +70,26 @@
             let batiment_select = document.getElementById("batiment");
             let salle_select = document.getElementById("salle");
             let materiel_select = document.getElementById("materiel");
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            let batiment_input = urlParams.get('batiment');
+            let salle_input = urlParams.get('salle');
+            let materiel_input = urlParams.get('materiel');
+            foundBat_input(batiment_input)
+            
+
+            function foundBat_input(batiment_input){
+                for(let selector of document.getElementById("batiment")){
+                    if(selector.value == batiment_input){
+                        selector.setAttribute("selected",true)
+                    }
+                }
+            }
 
             batiment_select.onchange = async function(){
                 try
                 {
+                    
                     batiment = batiment_select.value;
                     const response = await fetch("/api/get/locations/" + batiment);
                     console.log(response.status)
@@ -83,7 +99,11 @@
                     const salles = await response.json();
                     let optionHTML = "";
                     for (let id in salles){
-                        optionHTML += '<option value="' + id + '">' + salles[id] + '</option>'; 
+                        if((salle_input != null) && (salle_input == id)){
+                            optionHTML += '<option value="'+ id + ' selected">' + salles[id] + '</option>'
+                        }else{
+                            optionHTML += '<option value="' + id + '">' + salles[id] + '</option>'; 
+                        }
                     }
                     salle_select.innerHTML = optionHTML;
                 }
@@ -105,7 +125,11 @@
                     const computers = await response.json();
                     let optionHTML = "";
                     for (let id in computers){
-                        optionHTML += '<option value="' + id + '">' + computers[id] + '</option>'; 
+                        if((materiel_input != null) && (materiel_input == id)){
+                            optionHTML += '<option value="'+ id + ' selected">' + computers[id] + '</option>'
+                        }else{
+                            optionHTML += '<option value="' + id + '">' + computers[id] + '</option>'; 
+                        }
                     }
                     materiel_select.innerHTML = optionHTML;
                 }

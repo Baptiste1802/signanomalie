@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block main %}
+<h1 class="text-center">{{ title }}</h1>
+
+<body>
+
+    <div name="container1" class="container">
+        <form id="QRForm" action="" method="POST" class="needs-validation" novalidate>
+            {{ form.hidden_tag() }}
+
+            <div class="mb-3">
+                {{ form.batiment.label(class_="form-label") }}
+                {{ form.batiment(class_="form-select") }}
+            </div>
+
+            <div class="mb-3">
+                <div class="row">
+                    <div class="col mb-3">
+                        {{ form.salle.label(class_="form-label") }}
+                        {{ form.salle(class_="form-select") }}
+                    </div>
+
+                    <div class="col mb-3">
+                        {{ form.materiel.label(class_="form-label") }}
+                        {{ form.materiel(class_="form-select")}}
+                    </div>
+                </div>
+            </div>
+            <div class="boutons">
+                <button type="submit" data-toggle="tooltip" data-placement="bottom" title="Générer" id="valider" class="btn btn-primary" >Générer</button>
+
+                {% if afficherButton %}
+                    <a href=/downloadfile/{{name}} target="blank" data-toggle="tooltip" data-placement="bottom" title="afficher" id="pdf" class="btn btn-primary">Get PDF</a>
+                {%endif %}
+            </div>
+        </form>
+
+    </div>
+
+
+    <script>
+        let batiment_select = document.getElementById("batiment");
+        let salle_select = document.getElementById("salle");
+        let materiel_select = document.getElementById("materiel");
+
+        batiment_select.onchange = async function(){
+            try
+            {
+                batiment = batiment_select.value;
+                const response = await fetch("/api/get/locations/" + batiment);
+                console.log(response.status)
+                if (!response.ok){
+                    throw new Error(response.text)
+                }
+                const salles = await response.json();
+                let optionHTML = "";
+                for (let id in salles){
+                    optionHTML += '<option value="' + id + '">' + salles[id] + '</option>'; 
+                }
+                salle_select.innerHTML = optionHTML;
+            }
+            catch (error)
+            {
+                console.error(error)
+            }
+        }
+
+        salle_select.onchange = async function(){
+            try
+            {
+                salle = salle_select.value;
+                const response = await fetch("/api/get/computers/" + salle);
+                console.log(response.status)
+                if (!response.ok){
+                    throw new Error(response.text)
+                }
+                const computers = await response.json();
+                let optionHTML = "<option value=-1> Aucun </option>";
+                for (let id in computers){
+                    optionHTML += '<option value="' + id + '">' + computers[id] + '</option>'; 
+                }
+                materiel_select.innerHTML = optionHTML;
+            }
+            catch (error)
+            {
+                console.error(error)
+            }
+        }
+
+    </script>
+
+</body>
+{% endblock %}
