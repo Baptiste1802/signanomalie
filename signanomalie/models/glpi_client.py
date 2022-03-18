@@ -11,6 +11,7 @@ class GLPI_CLIENT(GLPI):
             1 : "normale",
             4 : "haute"
         }
+        self.locations = self.get_locations()
         self.update()
 
     def update(self):

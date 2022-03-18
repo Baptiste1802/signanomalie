@@ -13,19 +13,42 @@
                 {{ form.batiment(class_="form-select") }}
             </div>
 
+            {% if form.batiment.errors %}
+
+            <div class="alert alert-danger mb-3">
+                {{ form.batiment.errors[0] }}
+            </div>
+
+            {% endif %}
+
+            <div class="col mb-3">
+                {{ form.salle.label(class_="form-label") }}
+                {{ form.salle(class_="form-select") }}
+            </div>
+
+            {% if form.salle.errors %}
+
+            <div class="alert alert-danger mb-3">
+                {{ form.salle.errors[0] }}
+            </div>
+
+            {% endif %}
+            
+
             <div class="mb-3">
                 <div class="row">
-                    <div class="col mb-3">
-                        {{ form.salle.label(class_="form-label") }}
-                        {{ form.salle(class_="form-select") }}
+                    <div class="col">
+                        {{ form.type_materiel.label(class_="form-label") }}
+                        {{ form.type_materiel(class_="form-select") }}
                     </div>
 
-                    <div class="col mb-3">
+                    <div class="col">
                         {{ form.materiel.label(class_="form-label") }}
                         {{ form.materiel(class_="form-select")}}
                     </div>
                 </div>
             </div>
+
             <div class="boutons">
                 <button type="submit" data-toggle="tooltip" data-placement="bottom" title="Générer" id="valider" class="btn btn-primary" >Générer</button>
 
@@ -35,6 +58,10 @@
             </div>
         </form>
 
+        {%if afficherButton %}
+            <img src="{{url_for('static', filename='newqr.png')}}">
+        {%endif%}
+
     </div>
 
 
@@ -43,19 +70,23 @@
         let salle_select = document.getElementById("salle");
         let materiel_select = document.getElementById("materiel");
 
-        batiment_select.onchange = async function(){
+        let type_materiel_select = document.getElementById("type_materiel");
+
+        getSalles();
+
+        async function getSalles(){
             try
             {
+                
                 batiment = batiment_select.value;
                 const response = await fetch("/api/get/locations/" + batiment);
-                console.log(response.status)
                 if (!response.ok){
                     throw new Error(response.text)
                 }
                 const salles = await response.json();
                 let optionHTML = "";
                 for (let id in salles){
-                    optionHTML += '<option value="' + id + '">' + salles[id] + '</option>'; 
+                        optionHTML += '<option value="' + id + '">' + salles[id] + '</option>'; 
                 }
                 salle_select.innerHTML = optionHTML;
             }
@@ -65,27 +96,32 @@
             }
         }
 
-        salle_select.onchange = async function(){
+        async function getMateriel(){
             try
             {
                 salle = salle_select.value;
-                const response = await fetch("/api/get/computers/" + salle);
-                console.log(response.status)
-                if (!response.ok){
-                    throw new Error(response.text)
+                if (salle.value != ""){
+                    let type = type_materiel_select.value;
+                    const response = await fetch("/api/get/" + type.toLowerCase() + "s/" + salle);
+                    if (!response.ok){
+                        throw new Error(response.text)
+                    }
+                    const materiels = await response.json();
+                    let optionHTML = "<option value = '' hidden></option>";
+                    for (let id in materiels){
+                            optionHTML += '<option value="' + materiels[id] + '">' + materiels[id] + '</option>'; 
+                    }
+                    materiel_select.innerHTML = optionHTML;
                 }
-                const computers = await response.json();
-                let optionHTML = "<option value=-1> Aucun </option>";
-                for (let id in computers){
-                    optionHTML += '<option value="' + id + '">' + computers[id] + '</option>'; 
-                }
-                materiel_select.innerHTML = optionHTML;
             }
             catch (error)
             {
                 console.error(error)
             }
         }
+
+        batiment_select.onchange = getSalles;
+        type_materiel_select.onchange = getMateriel;
 
     </script>
 
