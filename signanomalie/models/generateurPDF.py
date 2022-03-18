@@ -6,10 +6,19 @@ length = 148
 width = 105
 
 def generationPDF(bat, salle, materiel, qr):
+    """
+    Permet de générer un PDF grâce aux informations du formulaire rempli passé en paramètre
+    """
 
     class PDF(FPDF):
+        """
+        Hérite de FPDF pour habiller le PDF
+        """
         
         def header(self):
+            """
+            En tête du PDF
+            """
             self.set_font('arial', 'B', 11)
 
             # Titre
@@ -21,6 +30,9 @@ def generationPDF(bat, salle, materiel, qr):
                 self.cell(0, 10, 'Fiche QR matériel ' + materiel , True, ln=True, align='C')
 
         def footer(self):
+            """
+            Pied de page du PDF
+            """
             self.set_font('arial', '', 8)
 
             # QR code
