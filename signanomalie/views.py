@@ -7,6 +7,7 @@ from .app import app, glpi
 def home():
 
     form = SignalForm()
+    success = False
 
     if form.validate_on_submit():
         notification = form.mailDeSuivi.data
@@ -17,11 +18,12 @@ def home():
         probleme = form.probleme.data
         desc = form.desc.data
         glpi.create_ticket(probleme, desc, mail, priorite, id_salle, materiel, notification)
+        success = True
 
     return render_template(
         "home.html",
-        title = "SignAnomalie",
         form=form,
+        success = success
     )
 
 
@@ -37,7 +39,6 @@ def qrcode():
 
     return render_template(
         "qrcode.html",
-        title = "SignAnomalie",
         form=form,
         afficherButton = afficherButton,
         path='signanomalie/static/pdf/',

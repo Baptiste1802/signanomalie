@@ -4,6 +4,13 @@
 <body>
 
     <div name="container1" class="container">
+        {% if success %}
+
+        <div class="alert alert-success mb-3">
+            Votre signalement a bien été pris en compte !
+        </div>
+    
+        {% endif %}
         <form action="" method="POST" class="needs-validation" novalidate>
             {{ form.hidden_tag() }}
 
@@ -103,14 +110,14 @@
             </div> -->
 
             <div class="mb-3">
-                {{ form.envoyer(class_="btn btn-primary") }}
+                {{ form.envoyer(class_="btn btn-primary toastbtn") }}
                 {{ form.reset(class_="btn btn-danger ")}}
             </div>
-
         
         </form>
 
         <script>
+
             let batiment_select = document.getElementById("batiment");
             let salle_select = document.getElementById("salle");
             let materiel_select = document.getElementById("materiel");
@@ -200,7 +207,6 @@
                         const materiels = await response.json();
                         let optionHTML = "<option value = '' hidden></option>";
                         for (let id in materiels){
-                            console.log(materiel_input, id)
                             if (materiel_input == materiels[id]){;
                                 optionHTML += '<option value="' + materiels[id] + '"selected>' + materiels[id] + '</option>'; 
                             } else {

@@ -52,6 +52,7 @@ class SignalForm(FlaskForm):
     reset = SubmitField("Reset")
 
 
+
 class QrCodeForm(FlaskForm):
     batiment = SelectFieldNoValidation('Bâtiment', choices=[(id, name) for id, name in glpi.get_batiments().items()],
         validators=[

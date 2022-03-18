@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
-    <title>{{title}}</title>
+    <title>Sign'Anomalie</title>
   </head>
   <body>
     {% block navbar %}
@@ -17,24 +17,21 @@
           <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <a class="navbar-brand mx-auto" href="/">SignAnomalie</a>
+          <a class="navbar-brand mx-auto" href="/">Sign'Anomalie</a>
           <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
           
             <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="offcanvasNavbarLabel">SignAnomalie</h5>
+              <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Sign'Anomalie</h5>
               <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
 
             <div class="offcanvas-body">
               <ul class="navbar-light-nav justify-content-end flex-grow-1 pe-3">
                 <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="">Signalements</a>
+                  <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}">Signalements</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Paramètres</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Politique de Confidentialité</a>
+                  <a class="nav-link" href="{{ url_for('qrcode') }}">Générer un QR-code</a>
                 </li>
               </ul>
             </div>
