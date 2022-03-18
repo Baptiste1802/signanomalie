@@ -123,6 +123,10 @@
             }
         }
 
+        function resetField(field){
+            field.innerHTML = "<option value = '' hidden></options>";
+        }
+
         batiment_select.onchange = getSalles;
         type_materiel_select.onchange = getMateriel;
 
