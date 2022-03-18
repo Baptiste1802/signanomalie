@@ -1,5 +1,5 @@
-from flask import render_template, jsonify, request
-from .models.forms import SignalForm
+from flask import render_template, jsonify, request, send_file
+from .models.forms import SignalForm, QrCodeForm
 from .app import app, glpi
 
 
