@@ -41,7 +41,7 @@ class GLPI_CLIENT(GLPI):
 
     def create_ticket(self, title, content, email, priority, location, device, notification):
         self.add("Ticket", 
-                {"name" : title + " - " + device, 
+                {"name" : self.locations.get(int(location)) + "  : " + title + " - " + device, 
                 "content" : content,
                 "urgency" : priority,
                 "itilcategories_id" : 14,

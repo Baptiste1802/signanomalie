@@ -49,9 +49,6 @@ class SignalForm(FlaskForm):
     desc = TextAreaField('Décrivez le problème succinctement', render_kw={"placeholder" : "-"})
 
     envoyer = SubmitField("Envoyer")
-    reset = SubmitField("Reset")
-
-
 
 class QrCodeForm(FlaskForm):
     batiment = SelectFieldNoValidation('Bâtiment', choices=[(id, name) for id, name in glpi.get_batiments().items()],

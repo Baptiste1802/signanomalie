@@ -19,6 +19,7 @@ def home():
         desc = form.desc.data
         glpi.create_ticket(probleme, desc, mail, priorite, id_salle, materiel, notification)
         success = True
+        form.desc.data = ""
 
     return render_template(
         "home.html",
