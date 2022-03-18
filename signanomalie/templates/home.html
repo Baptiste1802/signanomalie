@@ -112,7 +112,6 @@
         </form>
 
         <script>
-
             let batiment_select = document.getElementById("batiment");
             let salle_select = document.getElementById("salle");
             let materiel_select = document.getElementById("materiel");
@@ -162,7 +161,7 @@
                 {
                     salle = salle_select.value;
                     if (salle.value != ""){
-                        type = type_materiel_select.value;
+                        let type = type_materiel_select.value;
                         const response = await fetch("/api/get/" + type.toLowerCase() + "s/" + salle);
                         if (!response.ok){
                             throw new Error(response.text)
@@ -199,7 +198,7 @@
 
             batiment_select.onchange = getSalles;
 
-            salle_select.onchange = getMateriel;
+            salle_select.onchange = setProblemeMateriel;
 
             type_materiel_select.onchange = setProblemeMateriel;
 
