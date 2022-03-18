@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block main %}
-<h1 class="text-center">{{ title }}</h1>
 
 <body>
 
@@ -76,8 +75,7 @@
 
         async function getSalles(){
             try
-            {
-                
+            {   
                 batiment = batiment_select.value;
                 const response = await fetch("/api/get/locations/" + batiment);
                 if (!response.ok){
@@ -89,6 +87,11 @@
                         optionHTML += '<option value="' + id + '">' + salles[id] + '</option>'; 
                 }
                 salle_select.innerHTML = optionHTML;
+                if (salle_select.value != ""){
+                    getMateriel();
+                } else {
+                    resetField(materiel_select);
+                }
             }
             catch (error)
             {
@@ -109,7 +112,7 @@
                     const materiels = await response.json();
                     let optionHTML = "<option value = '' hidden></option>";
                     for (let id in materiels){
-                            optionHTML += '<option value="' + materiels[id] + '">' + materiels[id] + '</option>'; 
+                            optionHTML += '<option value="' + id + '">' + materiels[id] + '</option>'; 
                     }
                     materiel_select.innerHTML = optionHTML;
                 }

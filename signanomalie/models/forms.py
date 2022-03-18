@@ -80,15 +80,13 @@ class QrCodeForm(FlaskForm):
         print(type_materiel_selectionne)
         name_batiment = dict(self.batiment.choices).get(int(batiment_selectionne))
         name_salle = dict([(id, name) for id, name in glpi.locations.items()]).get(int(salle_selectionnee))
-        if (batiment_selectionne != None):
+        if (batiment_selectionne != ""):
             link += "batiment="+batiment_selectionne+"&"
-        if (salle_selectionnee != None):
+        if (salle_selectionnee != ""):
             link += "salle=" + salle_selectionnee+"&"
-        if (type_materiel_selectionne != None):
+        if (type_materiel_selectionne != "" and materiel_selectionne != ""):
             link += "type="+type_materiel_selectionne+"&"
-        if (materiel_selectionne != None):
             link += "materiel=" + materiel_selectionne
-        print(link)
         
         qr = qrcode.QRCode(
             version=1,
