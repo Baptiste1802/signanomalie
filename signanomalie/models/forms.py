@@ -22,7 +22,7 @@ class SignalForm(FlaskForm):
 
     mailDeSuivi = BooleanField('Recevoir des mails de suivi')
 
-    batiment = SelectFieldNoValidation('Bâtiment', choices=[(id, name) for id, name in glpi.batiments.items()],
+    batiment = SelectFieldNoValidation('Bâtiment', choices=[(id, name) for id, name in glpi.get_batiments().items()],
         validators=[
             InputRequired(message="Veuillez sélectionner un bâtiment")
         ])
@@ -53,7 +53,7 @@ class SignalForm(FlaskForm):
 
 
 class QrCodeForm(FlaskForm):
-    batiment = SelectFieldNoValidation('Bâtiment', choices=[(id, name) for id, name in glpi.batiments.items()],
+    batiment = SelectFieldNoValidation('Bâtiment', choices=[(id, name) for id, name in glpi.get_batiments().items()],
         validators=[
             InputRequired(message="Veuillez sélectionner un bâtiment")
         ])
