@@ -9,11 +9,20 @@ from .generateurPDF import generationPDF
 
 
 class SelectFieldNoValidation(SelectField):
+    """
+    Hérite de la classe SelectFiedl et passe la pré validation pour avoir un formulaire dynamique
+    Sans cela, nous ne sommes pas autorisé à sélectionner une valeur non présente dans les choix d'origine
+    """
     def pre_validate(self, form):
+        """
+        Méthode appelée avant l'envoie du formulaire et bloque si la validation n'est pas vérifiée
+        """
         pass
 
 class SignalForm(FlaskForm):
-    
+    """
+    Formulaire de signalement d'anomalie généré avec FlaskWtf
+    """
     mail = StringField('Renseignez votre adresse mail', 
         validators=[
             InputRequired(message="L'email est obligatoire"),
@@ -51,6 +60,9 @@ class SignalForm(FlaskForm):
     envoyer = SubmitField("Envoyer")
 
 class QrCodeForm(FlaskForm):
+    """
+    Formulaire de génération de QRCode généré avec FlaskWtf
+    """
     batiment = SelectFieldNoValidation('Bâtiment', choices=[(id, name) for id, name in glpi.get_batiments().items()],
         validators=[
             InputRequired(message="Veuillez sélectionner un bâtiment")
@@ -70,6 +82,9 @@ class QrCodeForm(FlaskForm):
     envoyer = SubmitField('Envoyer')
 
     def generateQRCode(self):
+        """
+        Permet de générer un QRCode grâce au champs du formulaire remplis
+        """
         link = os.environ.get("URL") + "?"
         batiment_selectionne = self.batiment.data
         salle_selectionnee = self.salle.data
