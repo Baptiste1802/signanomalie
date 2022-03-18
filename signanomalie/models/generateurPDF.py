@@ -49,7 +49,7 @@ def generationPDF(bat, salle, materiel, qr):
     # Création du PDF
     if salle == None:
         path = 'Fiche_info_bat_' + bat + '.pdf'
-    elif materiel == "Aucun":
+    elif materiel == None:
         path = 'Fiche_info_salle_' + salle + '.pdf'
     else :
         path = 'Fiche_info_materiel_' + materiel + '.pdf'

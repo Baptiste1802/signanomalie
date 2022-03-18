@@ -17,6 +17,7 @@ class GLPI_CLIENT(GLPI):
             1 : "normale",
             4 : "haute"
         }
+        self.locations = self.get_locations()
 
     def get_user(self, id):
         return self.get_item("User", 20)

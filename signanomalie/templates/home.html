@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block main %}
-<h1 class="text-center">{{ title }}</h1>
 
 <body>
 
@@ -118,21 +117,33 @@
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             let batiment_input = urlParams.get('batiment');
+            let type_materiel_input = urlParams.get('type');
             let salle_input = urlParams.get('salle');
             let materiel_input = urlParams.get('materiel');
             foundBat_input(batiment_input)
+            foundTypeMat(type_materiel_input)
             
 
             function foundBat_input(batiment_input){
                 for(let selector of document.getElementById("batiment")){
                     if(selector.value == batiment_input){
-                        selector.setAttribute("selected",true)
+                        selector.setAttribute("selected",true);
                     }
                 }
             }
 
+
             let type_materiel_select = document.getElementById("type_materiel");
             let probleme_select = document.getElementById("probleme");
+
+
+            function foundTypeMat(type_materiel_input){
+                for(let selector of document.getElementById("type_materiel")){
+                    if(selector.value == type_materiel_input){
+                        selector.setAttribute("selected",true);
+                    }
+                }
+            }
 
             const problemes = {
                 "Monitor" : ["Problème d'affichage", "Ne s'allume pas", "Est dégradé"],
@@ -140,7 +151,6 @@
                 "Printer" : ["Ne démarre pas", "Plus d'encre", "Papier manquant", "Bourrage papier", "Ne marche pas"]
             }
 
-            getSalles();
 
             async function getSalles(){
                 try
@@ -155,7 +165,7 @@
                     let optionHTML = "";
                     for (let id in salles){
                         if((salle_input != null) && (salle_input == id)){
-                            optionHTML += '<option value="'+ id + ' selected">' + salles[id] + '</option>'
+                            optionHTML += '<option value="'+ id +'"selected>' + salles[id] + '</option>'
                         }else{
                             optionHTML += '<option value="' + id + '">' + salles[id] + '</option>'; 
                         }
@@ -190,7 +200,8 @@
                         const materiels = await response.json();
                         let optionHTML = "<option value = '' hidden></option>";
                         for (let id in materiels){
-                            if (materiel_input == id){
+                            console.log(materiel_input, id)
+                            if (materiel_input == materiels[id]){;
                                 optionHTML += '<option value="' + materiels[id] + '"selected>' + materiels[id] + '</option>'; 
                             } else {
                                 optionHTML += '<option value="' + materiels[id] + '">' + materiels[id] + '</option>'; 
@@ -221,6 +232,7 @@
                 getProbleme();
             }
 
+            getSalles();
             batiment_select.onchange = getSalles;
 
             salle_select.onchange = setProblemeMateriel;
