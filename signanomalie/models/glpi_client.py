@@ -11,15 +11,19 @@ class GLPI_CLIENT(GLPI):
         Fait appel au super pour initier la session
         """
         super().__init__(url, apptoken, auth, verify_certs, use_headers)
-        self.set_active_profile(4)
+        self.set_active_profile(4) # augmentation de privilèges
         self.priorite = {
             2 : "basse",
             1 : "normale",
             4 : "haute"
         }
+        # permet de charger une seule fois la liste des lieux
         self.locations = self.get_locations()
 
     def get_user(self, id):
+        """
+        Retourne l'utilisateur qui correspond à l'id passé en paramètre
+        """
         return self.get_item("User", 20)
 
     def get_ticket(self, id):
